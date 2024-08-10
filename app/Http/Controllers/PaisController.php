@@ -119,4 +119,8 @@ class PaisController extends Controller
             "message"=>200
         ]);
     }
+
+    public function search(Request $request){
+        return Country::search($request->buscar);
+    }
 }

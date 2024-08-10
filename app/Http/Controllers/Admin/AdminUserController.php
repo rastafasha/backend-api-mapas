@@ -33,13 +33,7 @@ class AdminUserController extends Controller
     public function index()
     {
 
-        // dd(!auth('api')->user()->can('list_staff'));
-        // if(!auth('api')->user()->can('list_staff')){
-        //     return response()->json(["message"=>"El usuario no esta autenticado"],403);
-        //    }
-        // if(!auth('api')->user()->can('list_doctor')){
-        //     return response()->json(["message"=>"El usuario no esta autenticado"],403);
-        //    }
+        
         $roles = Role::get();
         $users = User::orderBy('id', 'desc')
         ->with('roles')
@@ -173,9 +167,7 @@ class AdminUserController extends Controller
     }
 
     public function search(Request $request){
-
         return User::search($request->buscar);
-
     }
 
     public function showNdoc($n_doc)

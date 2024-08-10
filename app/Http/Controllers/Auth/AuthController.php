@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\Role;
+use Spatie\Permission\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -81,6 +81,7 @@ class AuthController extends Controller
             'name' => 'required|string|between:2,100',
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|min:5',
+            // 'role_id' => 'required|integer|exists:roles,id', // validate role_id as an existing role id
             // 'n_doc' => 'required',
             'role' => Rule::in([User::GUEST]),
         ]);
@@ -95,9 +96,12 @@ class AuthController extends Controller
             'email' => $request->email,
             // 'n_doc' => $request->n_doc,
             'password' => Hash::make($request->password),
-            'role' => User::GUEST,
+            // 'role' => User::GUEST,
         ]);
+        
 
+        // Asigna el rol con id 5 al usuario
+        $user->assignRole(5);
         $token = JWTAuth::fromUser($user);
 
         return response()->json([
@@ -163,10 +167,20 @@ class AuthController extends Controller
                 "surname"=>auth('api')->user()->surname,
                 "rolename"=>auth('api')->user()->rolename,
                 "email"=>auth('api')->user()->email,
-                "n_doc"=>auth('api')->user()->n_doc,
+                // "n_doc"=>auth('api')->user()->n_doc,
                 "permissions"=>$permissions,
 
             ],
+            // 'role' => [
+            //     "id"=>$user->id,
+            //     "name"=>$user->name,
+            //     "surname"=>$user->surname,
+            //     // "rolename"=>$user->rolename,
+            //     "roles"=>$user->getRoleNames(),
+            //     "email"=>$user->email,
+            //     // "n_doc"=>$user->n_doc,
+            //     "permissions"=>$permissions,
+            // ],
         ]);
     }
 

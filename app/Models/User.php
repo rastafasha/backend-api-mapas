@@ -125,7 +125,6 @@ class User extends Authenticatable implements JWTSubject
         }
         return self::where('name', 'like', "%$query%")
         ->orWhere('email', 'like', "%$query%")
-        ->orWhere('role', 'like', "%$query%")
         ->get();
     }
     

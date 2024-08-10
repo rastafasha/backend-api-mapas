@@ -17,4 +17,13 @@ class Country extends Model
         'isActive',
 
     ];
+
+    public static function search($query = ''){
+        if(!$query){
+            return self::all();
+        }
+        return self::where('code', 'like', "%$query%")
+        ->orWhere('title', 'like', "%$query%")
+        ->get();
+    }
 }
