@@ -48,6 +48,8 @@ class PaisController extends Controller
     public function store(Request $request)
     {
         $pais_is_valid = Country::where("user_id", $request->user_id)->first();
+        $request->request->add(["ciudades"=>json_encode($request->ciudades)]);
+
         $pais = Country::create($request->all());
 
         return response()->json([
@@ -67,6 +69,7 @@ class PaisController extends Controller
 
         return response()->json([
             "pais" => $pais,
+            "ciudades"=>json_decode($pais-> ciudades),
             
         ]);
     }
@@ -75,10 +78,16 @@ class PaisController extends Controller
 
         $pais = Country::where("code",  $code)->first();
 
-        return response()->json([
-            "pais" => $pais,
-            
-        ]);
+        if ($pais) {
+            return response()->json([
+                "pais" => $pais,
+                "ciudades" => json_decode($pais->ciudades) ?: null,
+            ]);
+        } else {
+            return response()->json([
+                "message" => "Pais not found",
+            ], 404);
+        }
     }
 
     /**
@@ -91,6 +100,8 @@ class PaisController extends Controller
     public function update(Request $request, $id)
     {
         $pais_is_valid = Country::where("id", "<>", $id)->first();
+
+        $request->request->add(["ciudades"=>json_encode($request->ciudades)]);
         
         $pais = Country::findOrFail($id);
 
@@ -101,6 +112,7 @@ class PaisController extends Controller
         return response()->json([
             "message"=>200,
             "pais"=>$pais,
+            "ciudades"=>json_decode($pais-> ciudades),
         ]);
     }
 

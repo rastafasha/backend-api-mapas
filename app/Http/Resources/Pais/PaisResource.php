@@ -19,8 +19,9 @@ class PaisResource extends JsonResource
             "user_id" =>$this->resource->user_id,
             "title" =>$this->resource->title,
             "code" =>$this->resource->code,
-            "informacion" =>$this->resource->informacion,
-            "ciudades" =>$this->resource->ciudades,
+            // "informacion" =>$this->resource->informacion,
+            // "ciudades" =>$this->resource->ciudades,
+            "ciudades"=>json_decode($this->resource-> ciudades),
             "isActive" =>$this->resource->isActive,
 
             // "created_at"=>$this->resource->created_at ? Carbon::parse($this->resource->created_at)->format("Y-m-d h:i A") : NULL,

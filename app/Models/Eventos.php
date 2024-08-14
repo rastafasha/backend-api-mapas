@@ -17,11 +17,10 @@ class Eventos extends Model
         'hora',
         'direccion',
         'ciudad',
-        'pais_id',
 
     ];
 
     public function envento(){
-        return $this->belongsTo(Pais::class, 'pais_id');
+        return $this->belongsTo(Pais::class, 'pais_code');
     }
 }

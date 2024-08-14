@@ -16,3 +16,6 @@ Route::post('pais/store', [PaisController::class, 'store'])->name('pais.store');
 Route::post('pais/update/{pais}', [PaisController::class, 'update'])->name('pais.update');
 Route::delete('pais/destroy/{id}', [PaisController::class, 'destroy'])->name('pais.destroy');
 
+Route::options('/{any}', function (Request $request) {
+    return response()->json(['status' => 'OK']);
+    })->where('any', '.*');
