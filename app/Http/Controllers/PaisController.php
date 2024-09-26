@@ -75,13 +75,16 @@ class PaisController extends Controller
     }
     public function showCode($code)
     {
-
         $pais = Country::where("code",  $code)->first();
 
         if ($pais) {
+            $ciudades = json_decode($pais->ciudades, true);
+
+            $sorted = collect($ciudades)->sortBy('ciudad')->toArray();
+
             return response()->json([
                 "pais" => $pais,
-                "ciudades" => json_decode($pais->ciudades) ?: null,
+                "ciudades" => $sorted ?: null,
             ]);
         } else {
             return response()->json([
